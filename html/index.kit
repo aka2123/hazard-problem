@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- @includes 'link.kit' -->
+    <title>D3 simulation</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header__box">
+            <h1 class="header__box-title">Wizualna prezentacja matematyki</h1>
+            <p class="header__box-text">poznaj intrygujący problem hazardzisty</p>
+            <a href="#simulation" class="header__box-btn">Zacznij</a>
+        </div>
+        <div class="header__background"></div>
+        <svg class="header__svg"></svg>
+    </header>
+
+    <main class="main">
+
+        <section class="simulation section" id="simulation">
+
+            <div class="wrapper">
+
+                <div class="simulation__container">
+
+                    <div class="simulation__row">
+                        <div class="simulation__column">
+
+                            <h2 class="section__title">Czym jest problem hazardzisty?</h2>
+                            <p class="simulation__text">Wyobraź sobie gracza, który bierze udział w losowej grze. Zasady
+                                są proste:</p>
+
+                            <ul class="simulation__list">
+                                <li class="simulation__list-item">Stawia cześć swojego kapitału na rundę (np. 10% z 100
+                                    zł)
+                                </li>
+                                <li class="simulation__list-item">Ma 50% szans na wygraną (otrzymuje 10 zł) i 50% szans
+                                    na przegraną (traci 10 zł)
+                                </li>
+                                <li class="simulation__list-item">Gra kończy się, gdy osiągnie określoną liczbę rund lub
+                                    zbankrutuje (0 zł)</li>
+                            </ul>
+
+                            <p class="simulation__text">Poniżej możesz wybrać z kilka z strategii:</p>
+                            <ul class="simulation__list">
+                                <li class="simulation__list-item">stała - obstawia zawsze tak samo
+                                </li>
+                                <li class="simulation__list-item">martingale - obstawia dwa razy więcej po przegranej
+                                </li>
+                                <li class="simulation__list-item">anty martingale - obstawia dwa razy więcej po
+                                    przegranej</li>
+                            </ul>
+                        </div>
+
+                        <!-- <img src="" alt="karty hazardzisty"> -->
+                    </div>
+
+
+
+                    <div class="simulation__row">
+                        <div class="simulation__column">
+
+                            <h2 class="section__title">Sprawdź kto wygra</h2>
+                            <p class="simulation__text">Możesz uruchomić symulację i zobaczyć, jak zmienia się kapitał
+                                graczy w kolejnych rundach.</p>
+
+                            <div class="simulation__control-panel">
+
+                                <div class="simulation__control-panel-info-box">
+                                    <label for="simulation__control-panel-capital"
+                                        class="simulation__control-panel-label">Kapitał:</label>
+                                    <p class="simulation__control-panel-input-value">
+                                    </p>
+                                </div>
+
+                                <input type="range" min="10" max="999" step="1" id="simulation__control-panel-capital"
+                                    class="simulation__control-panel-input simulation__control-panel-input--capital"
+                                    value="100">
+
+                                <div class="simulation__control-panel-info-box">
+                                    <label for="simulation__control-panel-bet"
+                                        class="simulation__control-panel-label">Obstawiany procent:</label>
+                                    <p class="simulation__control-panel-input-value">
+                                    </p>
+                                </div>
+
+                                <input type="range" min="1" max="100" id="simulation__control-panel-bet"
+                                    class="simulation__control-panel-input simulation__control-panel-input--bet"
+                                    value="50" data-add-percentage="true">
+
+
+
+                                <div class="simulation__control-panel-info-box">
+
+                                    <label for="simulation__control-panel-chanse-of-win"
+                                        class="simulation__control-panel-label">Szansa na wygraną:</label>
+                                    <p class="simulation__control-panel-input-value">
+                                    </p>
+                                </div>
+
+                                <input type="range" min="1" max="100" step="1"
+                                    id="simulation__control-panel-chanse-of-win"
+                                    class="simulation__control-panel-input simulation__control-panel-input--chanse-of-win"
+                                    value="50" data-add-percentage="true">
+
+                                <div class="simulation__control-panel-info-box">
+                                    <label for="simulation__control-panel-rounds"
+                                        class="simulation__control-panel-label">Liczba rund:</label>
+
+                                    <p class="simulation__control-panel-input-value">
+                                    </p>
+                                </div>
+
+                                <input type="range" min="5" max="999" step="1" id="simulation__control-panel-rounds"
+                                    class="simulation__control-panel-input simulation__control-panel-input--rounds"
+                                    value="50">
+                                <div class="simulation__control-panel-info-box">
+
+                                    <label for="simulation__control-panel-number-of-players-in-strategy"
+                                        class="simulation__control-panel-label">Liczba graczy na strategię:</label>
+                                    <p class="simulation__control-panel-input-value">
+                                    </p>
+                                </div>
+
+                                <input type="range" min="1" max="3" step="1"
+                                    id="simulation__control-panel-number-of-players-in-strategy"
+                                    class="simulation__control-panel-input simulation__control-panel-input--number-players"
+                                    value="1">
+
+                                <label for="simulation__control-panel-strategy-checkbox"
+                                    class="simulation__control-panel-label simulation__control-panel-label--checkbox">Wybierz
+                                    strategie</label>
+
+                                <div class="simulation__control-panel-checkbox-row">
+
+                                    <input type="checkbox"
+                                        class="simulation__control-panel-checkbox simulation__control-panel-checkbox--flatbet"
+                                        data-strategy-name="flatBet" checked>
+                                    <p class="simulation__control-panel-checkbox-text">stała</p>
+                                </div>
+                                <div class="simulation__control-panel-checkbox-row">
+
+                                    <input type="checkbox"
+                                        class="simulation__control-panel-checkbox simulation__control-panel-checkbox--martingale"
+                                        data-strategy-name="martingale">
+                                    <p class="simulation__control-panel-checkbox-text">martingale</p>
+                                </div>
+                                <div class="simulation__control-panel-checkbox-row">
+
+                                    <input type="checkbox"
+                                        class="simulation__control-panel-checkbox simulation__control-panel-checkbox--antimartingale"
+                                        data-strategy-name="antiMartingale">
+
+                                    <p class="simulation__control-panel-checkbox-text">anty martingale</p>
+                                </div>
+
+                                <button class="simulation__control-panel-btn-start">Zacznij</button>
+                            </div>
+                        </div>
+                        <div class="simulation__chart-container">
+                            <svg class="simulation__chart"></svg>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="conclusions section">
+
+            <div class="wrapper">
+
+                <div class="conclusions__container">
+
+                    <h2 class="section__title">Wnioski</h2>
+
+                    <div class="conclusions__row">
+
+                        <div class="conclusions__conclusion">
+                            <h3 class="conclusions__title">Hazardzista (prawie) zawsze przegrywa</h3>
+                            <p class="conclusions__text">Dlaczego? Opisuję to łańcuch Markowa o wartościach:</p>
+                            <ul class="conclusions__list">
+                                <li class="conclusions__list-item">W = K / G</li>
+                                <li class="conclusions__list-item">K to początkowy kapitał</li>
+                                <li class="conclusions__list-item">G to cel gracza</li>
+                            </ul>
+                            <p class="conclusions__text">Co to oznacza?</p>
+                            <ul class="conclusions__list">
+                                <li class="conclusions__list-item">Gdy K = G / 2, szansa wynosi 50%</li>
+                                <li class="conclusions__list-item">K ≪ G, szansa jest bliska 0%, czyli im mniej masz na
+                                    starcie, tym bardziej prawdopodobne jest bankructwo</li>
+                                <li class="conclusions__list-item">Gdy nie ma górnego limitu (G → ∞), to gracz zawsze
+                                    zbankrutuje</li>
+                            </ul>
+                            <p class="conclusions__text">Wynika to z własności spacerów losowych w skończonej
+                                przestrzeni.
+                                Każda droga w końcu prowadzi do stanu absorpcji - bankructwa. To rzeczywistość hazardu -
+                                jeśli nie przestaniesz grać, prędzej czy później zbankrutujesz.
+                            </p>
+                        </div>
+
+                        <div class="conclusions__conclusion">
+                            <h3 class="conclusions__title">Hazard to nie strategia </h3>
+                            <p class="conclusions__text">Hazardzista nie może kontrolować wyniku, ale może kontrolować
+                                strategię. Co pokazuje symulacja?</p>
+                            <ul class="conclusions__list">
+                                <li class="conclusions__list-item">Strategia „stała” jest najstabilniejsza, ale w końcu
+                                    prowadzi do bankructwa.</li>
+                                <li class="conclusions__list-item">Strategie ryzykowne „martingale i anty” zapewniają
+                                    szybkie wloty jak i upadki.</li>
+                            </ul>
+                            <p class="conclusions__text">Co to oznacza?</p>
+                            <ul class="conclusions__list">
+                                <li class="conclusions__list-item">W grach losowych najlepsza strategia to - nie grać
+                                    wcale.</li>
+                                <li class="conclusions__list-item">W prawdziwym życiu decyzje o ryzyku powinny opierać
+                                    się na obiektywnej analizie, a nie nadziei i emocjach.</li>
+                            </ul>
+                        </div>
+
+                        <div class="conclusions__conclusion">
+                            <h3 class="conclusions__title">Niewielka przewaga - wielka różnica</h3>
+                            <p class="conclusions__text">Gdy szansa na wygraną wzrośnie choćby o 1% (np. do 51%),
+                                bankructwo
+                                staje się znacznie mniej prawdopodobne. Co pokazuje symulacja?</p>
+                            <ul class="conclusions__list">
+                                <li class="conclusions__list-item">Przy 49% szansy na wygraną hazardzista zawsze przegra
+                                    w dłuższej perspektywie.</li>
+                                <li class="conclusions__list-item">Przy 51% szansy na wygraną hazardzista częściej
+                                    dochodzi do celu niż bankrutuje</li>
+                            </ul>
+                            <p class="conclusions__text">Co to oznacza?</p>
+                            <ul class="conclusions__list">
+                                <li class="conclusions__list-item">Kasyna i bukmacherzy zarabiają na drobnej przewadze,
+                                    nawet 1% różnicy daje im ogromne zyski</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- @includes 'script-index.kit' -->
+</body>
+
+</html>
