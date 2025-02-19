@@ -11,28 +11,25 @@ const controllPanelInputChanseOfWinForStrategy = document.querySelector(
 )
 const controllPanelInputInfoValues = document.querySelectorAll('.simulation__control-panel-input-value')
 const header = document.querySelector('.header')
-
+let width = 320
+let	height = 200
+let	margin = 45
+let mediaQuerySmall = window.matchMedia('(min-width: 576px)');
+let mediaQueryMedium = window.matchMedia('(min-width: 768px)');
+let mediaQueryExtraLarge = window.matchMedia('(min-width: 1200px)');
 let rounds = +controllPanelInputRounds.value
-console.log(rounds)
 let initialCapital = +controllPanelInputInitialCapital.value
 let numberOfPlayersForStrategy = +controllPanelInputNumberOfPlayersForAStrategy.value
 let chanseOfWinOfTheStrategy = +controllPanelInputChanseOfWinForStrategy.value / 100
 let lastRounds = []
 let numLines = 10
 let headerHeight = header.clientHeight
+console.log(headerHeight);
 let headerWidth = header.clientWidth
-
-function generateRandomPath() {
-	let data = []
-	let y = 15
-	for (let x = 0; x <= 100; x += 10) {
-		y += (Math.random() - 0.75) * 10
-		data.push({ x, y })
-	}
-	return data
-}
 let tickSpacing = Math.ceil(rounds / 10)
 let tickValues = d3.range(0, rounds + 1, tickSpacing)
+
+
 
 const headerScaleX = d3.scaleLinear().domain([0, 100]).range([0, headerWidth])
 
@@ -125,9 +122,22 @@ let strategyPlayers = {
 	antiMartingale: [],
 }
 
-const width = 600,
-	height = 350,
-	margin = 50
+
+if (mediaQuerySmall.matches) {
+     width = 400
+	height = 250
+}
+if (mediaQueryMedium.matches) {
+     width = 500
+	height = 300
+
+}
+
+if (mediaQueryExtraLarge.matches) {
+     width = 600
+	height = 350
+}
+
 
 const scaleX = d3
 	.scaleLinear()
@@ -176,7 +186,6 @@ function updateChart() {
 			totalPlayers: players.length,
 		}))
 	)
-	// console.log(strategyData)
 	const strategyLines = pathGroup.selectAll('.strategy-line').data(strategyData)
 
 	strategyLines
@@ -225,7 +234,15 @@ const changeAControllPanelInputInfoValue = () => {
 		}
 	})
 }
-
+function generateRandomPath() {
+	let data = []
+	let y = 15
+	for (let x = 0; x <= 100; x += 10) {
+		y += (Math.random() - 0.75) * 10
+		data.push({ x, y })
+	}
+	return data
+}
 const removeStrategyFromChart = () => {
 	controllPanelCheckboxes.forEach(checkbox => {
 		const strategyName = checkbox.dataset.strategyName
